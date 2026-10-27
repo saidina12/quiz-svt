@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quiz SVT — La structure du tissu nerveux</title>
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--tx:#1d2433;--mu:#667085;--ac:#2f6fed;--ok:#1a9c5b;--ko:#d6453d;--wa:#e0900f;--bd:#dfe3ec;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12151c;--card:#1b2029;--tx:#e8ebf2;--mu:#9aa3b5;--ac:#6b9bff;--bd:#2d3443;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#12151c;--card:#1b2029;--tx:#e8ebf2;--mu:#9aa3b5;--ac:#6b9bff;--bd:#2d3443;color-scheme:dark}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:680px;margin:0 auto;padding:18px 16px 40px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:20px;margin-bottom:14px}
+h1{font-size:1.35rem;margin:0 0 6px}h2{font-size:1.05rem;margin:0 0 10px}
+.mu{color:var(--mu);font-size:.92rem}
+input[type=text],textarea{width:100%;padding:11px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);font:inherit}
+textarea{min-height:130px;resize:vertical}
+button{background:var(--ac);color:#fff;border:0;border-radius:10px;padding:12px 20px;font:inherit;font-weight:600;cursor:pointer;margin-top:12px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-weight:600}
+.tm{font-variant-numeric:tabular-nums;font-size:1.3rem}
+.tm.low{color:var(--ko)}
+.bar{height:8px;background:var(--bd);border-radius:6px;overflow:hidden;margin-bottom:16px}
+.bar i{display:block;height:100%;background:var(--ac);width:100%;transition:width .2s linear}
+.big{font-size:2.6rem;font-weight:800;line-height:1.1}
+.r{border-top:1px solid var(--bd);padding-top:12px;margin-top:12px}
+.r b.s{float:right}
+.a{background:var(--bg);border-radius:8px;padding:8px 10px;margin:6px 0;font-size:.95rem}
+.g{border-left:3px solid var(--ok)}.y{border-left:3px solid var(--ko)}
+.fg svg{width:100%;height:auto;color:var(--tx);margin-bottom:6px}.o{stroke:currentColor;fill:none;stroke-width:1.6}.ld{stroke:var(--ac);stroke-width:1.2}.pt,.mk{fill:var(--ac)}.mt{fill:#fff;font:700 13px system-ui;text-anchor:middle}.row{display:flex;gap:8px;align-items:center;margin:6px 0}.row b{min-width:26px;height:26px;border-radius:50%;background:var(--ac);color:#fff;text-align:center;line-height:26px;font-size:.85rem}.a b{margin-right:6px}.row .mu{min-width:60px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main>
+<div id="s0" class="card">
+  <h1>Quiz SVT</h1>
+  <div class="mu" style="margin-bottom:14px">Thème 2 : Le tissu nerveux et ses propriétés — Leçon 3 : La structure du tissu nerveux</div>
+  <p>Réponds avec tes mots, comme dans ton cours. Chaque question a un temps limité : le temps comprend la réflexion et l’écriture ; quand le compteur arrive à zéro, on passe automatiquement à la question suivante, et on ne peut pas revenir en arrière.</p>
+  <p class="mu">Ta note sur 20 et les bonnes réponses s’affichent à la fin.</p>
+  <input id="nm" type="text" placeholder="Ton prénom et ton nom">
+  <button id="go">Commencer</button>
+</div>
+
+<div id="s1" hidden>
+  <div class="top"><span id="pg"></span><span id="tm" class="tm"></span></div>
+  <div class="bar"><i id="br"></i></div>
+  <div class="card">
+    <h2 id="qq"></h2>
+    <textarea id="ta" placeholder="Écris ta réponse ici…"></textarea>
+    <div id="fg" hidden><div id="fgs" class="fg"></div><div id="fgi"></div></div>
+    <button id="nx">Valider et continuer</button>
+  </div>
+</div>
+
+<div id="s2" hidden>
+  <div class="card">
+    <div class="mu" id="who"></div>
+    <div class="big"><span id="nt"></span><span style="font-size:1.2rem"> / 20</span></div>
+    <p id="ap" style="margin:8px 0 0"></p>
+    <p class="mu">La note est calculée automatiquement en cherchant les éléments clés du cours dans tes réponses : un synonyme correct peut être compté à tort comme manquant. Compare toujours avec la réponse attendue.</p>
+  </div>
+  <div id="dt"></div>
+</div>
+</main>
+
+<script>
+var T=function(q,a,k,t){return{q:q,a:a,k:k,t:t}};
+var Q=[
+T("Qu’est-ce qui forme le tissu nerveux ?","L’ensemble des cellules nerveuses, des nerfs et des annexes des centres nerveux forme le tissu nerveux.",["cellule","nerf","annexe","centres nerveux|centre nerveux"],80),
+T("De quoi sont essentiellement constitués les centres nerveux (encéphale et moelle épinière) ?","De substance blanche et de substance grise.",["blanche","grise"],50),
+T("Quel est le rôle des nerfs ?","Les nerfs assurent la liaison entre les centres nerveux et la périphérie de l’organisme.",["liaison","centres nerveux|centre nerveux","peripherie"],70),
+T("Figure 1 : quel titre donnes-tu à cette figure, et quelles sont les deux racines annotées ?","Coupe transversale de la moelle épinière ; racine postérieure et racine antérieure.",["coupe","transversale","moelle","posterieur","anterieur"],80),
+T("Figure 2 (observation de la substance grise et de la substance blanche de la moelle épinière au microscope optique) : cite les éléments annotés.","Substance grise, corps cellulaire, fibre nerveuse, substance blanche.",["grise","corps","fibre","blanche"],70),
+T("Que montre l’observation au microscope optique d’une préparation de substance grise de la moelle épinière ?","Des éléments de forme polyédrique ou étoilée appelés corps cellulaire (péricaryon ou soma), des fibres nerveuses et des cellules gliales formant la névroglie.",["polyedr","etoil","corps cellulaire|pericaryon|soma","fibre","glial","nevrogl"],150),
+T("De quoi est constitué un corps cellulaire ?","D’un noyau et d’un cytoplasme renfermant des organites cytoplasmiques, dont un ergastoplasme particulier appelé corps de Nissl.",["noyau","cytoplasme","organite","ergastoplasme|nissl"],120),
+T("Un corps cellulaire est muni de deux sortes de prolongements cytoplasmiques. Lesquels, et comment sont-ils ?","L’axone (cylindraxe), de diamètre constant et en général plus gros et plus grand ; une ou des dendrites, en général courtes et ramifiées.",["axone|cylindraxe","constant","dendrit","court","ramifi"],130),
+T("Cite un type de cellules gliales.","Les oligodendrocytes.",["oligodendrocyte"],40),
+T("Où se trouvent les cellules gliales et quel est leur rôle ?","Elles occupent les espaces entre les corps cellulaires et jouent un rôle important de soutien et de nutrition de la cellule nerveuse.",["espace","corps","soutien","nutrition"],90),
+T("Figure 3 (ultrastructure d’un corps cellulaire) : cite les éléments annotés.","Dendrites, ergastoplasme, membrane plasmique, noyau, cytoplasme, appareil de Golgi, neurofibrilles, mitochondrie, axone.",["dendrit","ergastoplasme","membrane","noyau","cytoplasme","golgi","fibrille","mitochondri","axone"],150),
+T("Que montre l’observation microscopique d’une coupe de la substance blanche de la moelle épinière ?","Elle est entièrement constituée de fibres nerveuses et de cellules gliales. Chaque fibre nerveuse est constituée d’un axone entouré d’une gaine de myéline, responsable de la coloration de la substance blanche.",["fibre","glial","axone","myeline","coloration"],150),
+T("Coupe transversale d’un nerf : de quoi un nerf est-il constitué ?","Un nerf est constitué par des faisceaux de fibres nerveuses qui baignent dans un tissu conjonctif riche en vaisseaux sanguins.",["faisceau","fibre","conjonctif","sanguin|vaisseau"],120),
+T("Quelles sont les trois enveloppes observées sur la coupe transversale d’un nerf, et quel est le rôle de chacune ?","L’épinèvre, gaine protectrice qui constitue l’enveloppe du nerf ; le périnèvre, membrane qui englobe des faisceaux de fibres nerveuses ; l’endonèvre, qui sépare les faisceaux de fibres nerveuses.",["epinev|epineur","perinev|perineur","endonev|endoneur","enveloppe|gaine"],160),
+T("Figure 5 (coupe transversale d’un nerf) : cite les 7 éléments annotés.","1 vaisseau sanguin, 2 épinèvre, 3 faisceaux de fibres, 4 fibre nerveuse, 5 endonèvre, 6 axone, 7 périnèvre.",["vaisseau|sanguin","epinev|epineur","faisceau","fibre","endonev|endoneur","axone","perinev|perineur"],130),
+T("Figure 6 (fibres nerveuses dissociées) : cite les éléments annotés.","Gaine de Schwann, axone, étranglement de Ranvier, gaine de myéline.",["schwann","axone","ranvier","myeline"],80)
+];
+function shuf(a){a=a.slice();for(var j=a.length-1;j>0;j--){var r=Math.floor(Math.random()*(j+1)),t=a[j];a[j]=a[r];a[r]=t}return a}
+function svg(q){var s='<svg viewBox="0 0 420 300" role="img" aria-label="Figure">'+D[q.fig]();q.parts.forEach(function(p,j){if(!p.m)return;s+='<line class="ld" x1="'+p.m[0]+'" y1="'+p.m[1]+'" x2="'+p.p[0]+'" y2="'+p.p[1]+'"/><circle class="pt" cx="'+p.p[0]+'" cy="'+p.p[1]+'" r="3"/><circle class="mk" cx="'+p.m[0]+'" cy="'+p.m[1]+'" r="12"/><text class="mt" x="'+p.m[0]+'" y="'+(p.m[1]+5)+'">'+q.num[j]+'</text>'});return s+'</svg>'}
+function hit(p,v){var n=norm(v||"");return p.k.every(function(k){return k.split("|").some(function(w){return n.indexOf(w)>-1})})}
+function ratio(k,v){var n=norm(v||""),h=0;k.forEach(function(x){if(x.split("|").some(function(w){return n.indexOf(w)>-1}))h++});return h}
+var i=0,R=[],dl=0,iv=null,nm="";
+function $(x){return document.getElementById(x)}
+function norm(s){return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[’']/g,"'")}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function show(n){["s0","s1","s2"].forEach(function(x,j){$(x).hidden=j!==n});window.scrollTo(0,0)}
+function render(){
+  var q=Q[i];
+  $("pg").textContent="Question "+(i+1)+" / "+Q.length;
+  $("qq").textContent=q.q;
+  $("nx").textContent=i===Q.length-1?"Valider et terminer":"Valider et continuer";
+  $("ta").hidden=!!q.fig;$("fg").hidden=!q.fig;
+  if(q.fig){
+    q.num={};var mk=[],h="";q.parts.forEach(function(p,j){if(p.m)mk.push(j)});
+    shuf(mk).forEach(function(j,x){q.num[j]=x+1});
+    $("fgs").innerHTML=svg(q);
+    q.parts.map(function(p,j){return j}).sort(function(a,b){return (q.num[a]||99)-(q.num[b]||99)}).forEach(function(j){var p=q.parts[j];h+='<div class="row">'+(p.m?'<b>'+q.num[j]+'</b>':'<span class="mu">'+esc(p.lab)+'</span>')+'<input type="text" data-j="'+j+'" autocomplete="off" placeholder="Nom de la partie"></div>'});
+    $("fgi").innerHTML=h;
+  }else{$("ta").value="";$("ta").focus()}
+  dl=Date.now()+q.t*1000;
+  clearInterval(iv);iv=setInterval(tick,200);tick();
+}
+function tick(){
+  var ms=dl-Date.now(),q=Q[i];
+  if(ms<=0){next();return}
+  var s=Math.ceil(ms/1000);
+  $("tm").textContent=Math.floor(s/60)+":"+("0"+(s%60)).slice(-2);
+  $("tm").className="tm"+(s<=10?" low":"");
+  $("br").style.width=(ms/(q.t*1000)*100)+"%";
+}
+function next(){
+  clearInterval(iv);
+  var q=Q[i];
+  if(q.fig){var arr=[];document.querySelectorAll("#fgi input").forEach(function(e){arr[+e.dataset.j]=e.value.trim()});R.push(arr)}
+  else R.push($("ta").value.trim());
+  i++;
+  if(i<Q.length){render()}else{finish()}
+}
+function finish(){
+  var tot=0,h="";
+  Q.forEach(function(q,j){
+    var r,sc,body;
+    if(q.fig){
+      var c=0;body='<div class="fg">'+svg(q)+'</div>';
+      q.parts.map(function(p,x){return x}).sort(function(a,b){return (q.num[a]||99)-(q.num[b]||99)}).forEach(function(x){var p=q.parts[x],v=R[j][x],ok=hit(p,v);if(ok)c++;body+='<div class="a '+(ok?'g':'y')+'"><b>'+(p.m?q.num[x]:esc(p.lab))+'</b> '+(v?esc(v):"<i>—</i>")+' <span class="mu">→ '+esc(p.n)+'</span></div>'});
+      r=c/q.parts.length;sc=c+" / "+q.parts.length;
+    }else{
+      var n=ratio(q.k,R[j]);r=n/q.k.length;sc=n+" / "+q.k.length;
+      body='<div class="a y"><span class="mu">Ta réponse :</span><br>'+(R[j]?esc(R[j]).replace(/\n/g,"<br>"):"<i>Pas de réponse</i>")+'</div><div class="a g"><span class="mu">Réponse attendue :</span><br>'+esc(q.a)+'</div>';
+    }
+    tot+=r;
+    var col=r>=.75?"var(--ok)":r>=.4?"var(--wa)":"var(--ko)";
+    h+='<div class="card"><b class="s" style="color:'+col+'">'+sc+'</b><b>'+(j+1)+". "+esc(q.q)+'</b>'+body+'</div>';
+  });
+  var note=Math.round(tot/Q.length*40)/2;
+  $("nt").textContent=String(note).replace(".",",");
+  $("who").textContent=nm?"Résultat de "+nm:"Ton résultat";
+  $("ap").textContent=note>=16?"Excellent travail, la leçon est bien maîtrisée.":note>=12?"Bien, il reste quelques points à revoir.":note>=10?"Passable : relis la leçon et reprends les définitions.":"Il faut reprendre la leçon et bien apprendre les définitions.";
+  $("dt").innerHTML=h;
+  show(2);
+}
+$("go").onclick=function(){nm=$("nm").value.trim();i=0;R=[];show(1);render()};
+$("nx").onclick=next;
+</script>
+</body>
+</html>
